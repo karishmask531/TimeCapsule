@@ -1,0 +1,49 @@
+.theme{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:  80px;
+    background: linear-gradient(
+        180deg,
+        #f5f7fa,
+        white
+    );
+}
+.theme.left{
+    width:50%
+}
+.theme.left h1{
+    font-size: 48px;
+    color: #6c63ff;
+}
+.theme.left p{
+    font-size: 20px;
+    color:gray;
+    margin-top: 20px;
+}
+.theme.left button{
+    margin-top: 30px;
+    padding: 15px 35px;
+    background-color: #f5f7fa;
+    color:#f5f7fa;
+    border:none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.theme.left button:hover {
+    background-color: #5848d6;
+    transform: translateY(-3px);
+}
+.theme.right{
+    width:50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.theme.right img{
+    width: 80%;
+    height: auto;
+}
