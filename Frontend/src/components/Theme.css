@@ -1,49 +1,105 @@
 .theme{
+    width: 100%;
+    min-height: 80vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:  80px;
+    padding: 80px;
     background: linear-gradient(
         180deg,
         #f5f7fa,
         white
     );
+    box-sizing: border-box;
+    gap: 40px;
 }
-.theme.left{
-    width:50%
+.theme-left{
+    width: 50%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-.theme.left h1{
+.theme-left h1{
     font-size: 48px;
     color: #6c63ff;
+    line-height: 1.2;
+    margin: 0 0 15px 0;
 }
-.theme.left p{
+.theme-left p{
     font-size: 20px;
-    color:gray;
+    color: gray;
     margin-top: 20px;
+    margin-bottom: 0;
+    line-height: 1.6;
 }
-.theme.left button{
+.theme-left button{
     margin-top: 30px;
     padding: 15px 35px;
-    background-color: #f5f7fa;
-    color:#f5f7fa;
-    border:none;
+    background-color: #6c63ff;
+    color: white;
+    border: none;
     border-radius: 12px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
 }
-.theme.left button:hover {
+.theme-left button:hover {
     background-color: #5848d6;
     transform: translateY(-3px);
 }
-.theme.right{
-    width:50%;
+.theme-right{
+    width: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
-.theme.right img{
-    width: 80%;
+.theme-right img{
+    width: 100%;
     height: auto;
+    max-width: 500px;
+    object-fit: contain;
+}
+
+@media (max-width: 1024px) {
+    .theme {
+        flex-direction: column;
+        padding: 60px 40px;
+        gap: 30px;
+    }
+    .theme-left, .theme-right {
+        width: 100%;
+        margin-top: 0;
+    }
+    .theme-left h1 {
+        font-size: 36px;
+    }
+    .theme-left p {
+        font-size: 18px;
+    }
+    .theme-right img {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .theme {
+        padding: 40px 20px;
+        gap: 20px;
+    }
+    .theme-left h1 {
+        font-size: 28px;
+    }
+    .theme-left p {
+        font-size: 16px;
+    }
+    .theme-left button {
+        padding: 12px 25px;
+        font-size: 16px;
+    }
+    .theme-right img {
+        max-width: 300px;
+    }
 }
