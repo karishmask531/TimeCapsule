@@ -1,4 +1,4 @@
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./signup.css";
 function Signup() {
@@ -12,7 +12,9 @@ function Signup() {
     const [passwordError, setPasswordError] = useState("");
     const [formError, setFormError] = useState("");
     const [confirmPassworderror, setConfirmPassworderror] = useState("");
-    const [ successMessage, setsuccessMessage ] = useState("");
+    const [successMessage, setsuccessMessage] = useState("");
+    const [showPassword, setShowpassword] = useState(false);
+    const [showconfirmPassword, setShowConfirmpassword] = useState(false);
 
     function handleSignup(event) {
         event.preventDefault();
@@ -84,8 +86,8 @@ function Signup() {
 
         setsuccessMessage("🎉 Account created successfully! Redirecting to Login...");
         setTimeout(() => {
-    navigate("/login");
-}, 2000);
+            navigate("/login");
+        }, 2000);
 
         // Later we will call backend API here
     }
@@ -99,18 +101,18 @@ function Signup() {
                     <h1>Create Account</h1>
                     <p className="signup-description">Start preserving your memories with TimeCapsule!</p>
                 </div>
-              
+
                 {formError && (
                     <div className="form-error">
                         {formError}
                     </div>
                 )}
-                  {successMessage && (
+                {successMessage && (
                     <div className="success-message">
                         {successMessage}
                     </div>
                 )}
-                <form className="signup-form">
+                <form className="signup-form" onSubmit={handleSignup}>
                     <label>Full Name</label>
                     <input
                         type="text"
@@ -140,27 +142,45 @@ function Signup() {
                         </p>
                     )}
                     <label>Password</label>
-                    <input type="password" placeholder="Password" value={password} onChange={(e) => {
-                        setPassword(e.target.value); setPasswordError("");
-                        setFormError("");
-                    }}
-                        required />
+                    <div className="password-field">
+                        <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => {
+                            setPassword(e.target.value); setPasswordError("");
+                            setFormError("");
+                        }} required />
+                        <button
+                            type="button"
+                            className="toggle-password"
+                            onClick={() => setShowpassword(!showPassword)}
+                        >
+                            {showPassword ? "🙈" : "👁"}
+                        </button>
+                    </div>
                     {passwordError && (
                         <p className="error-message">
                             {passwordError}
                         </p>
                     )}
                     <label>Confirm Password</label>
-                    <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => {
-                        setConfirmpassword(e.target.value); setConfirmPassworderror("");
-                        setFormError("");
-                    }} />
+                    <div className="password-field">
+                        <input type={showconfirmPassword ? "text" : "password"} placeholder="Confirm Password" value={confirmPassword} onChange={(e) => {
+                            setConfirmpassword(e.target.value); setConfirmPassworderror("");
+                            setFormError("");
+                        }} />
+                        <button
+                            type="button"
+                            className="toggle-password"
+                            onClick={() => setShowConfirmpassword(!showconfirmPassword)}
+                        >
+                            {showconfirmPassword ? "🙈" : "👁"}
+                        </button>
+                    </div>
                     {confirmPassworderror && (
                         <p className="error-message">
                             {confirmPassworderror}
                         </p>
                     )}
-                    <button type="submit" onClick={handleSignup}>Sign Up</button>
+
+                    <button type="submit">Sign Up</button>
                 </form>
                 <p className="login-link">Already have an account? <Link to="/login">Login here</Link></p>
             </div>
