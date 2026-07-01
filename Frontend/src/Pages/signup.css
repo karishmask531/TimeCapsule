@@ -79,7 +79,38 @@
   box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.16);
 }
 
-.signup-form button {
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.password-field .password-input {
+  padding-right: 46px;
+}
+
+.password-field .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #6c63ff;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.password-field .toggle-password:hover {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: none;
+}
+
+.signup-form > button {
   margin-top: 8px;
   padding: 13px 16px;
   border: none;
@@ -92,7 +123,7 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.signup-form button:hover {
+.signup-form > button:hover {
   transform: translateY(-1px);
   box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
 }
@@ -114,12 +145,11 @@
     font-weight:600;
 }
 
-.error-message{
-    color:#dc2626;
-    font-size:13px;
-    margin-top:-8px;
-    margin-bottom:10px;
-    font-weight:500;
+.error-message {
+  color: #dc2626;
+  font-size: 13px;
+  margin: -4px 0 2px;
+  font-weight: 500;
 }
 
 .signup-form input.error-input{

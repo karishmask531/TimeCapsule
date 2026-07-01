@@ -1,4 +1,4 @@
-.Login-container {
+.login-container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -9,7 +9,7 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.logo-page {
+.login-page {
   width: min(100%, 440px);
   background: #ffffff;
   padding: 32px 28px;
@@ -53,7 +53,7 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .login-form label {
@@ -82,8 +82,39 @@
   box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.16);
 }
 
-.login-form button {
-  margin-top: 6px;
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.password-field .password-input {
+  padding-right: 46px;
+}
+
+.password-field .eye-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #6c63ff;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.password-field .eye-btn:hover {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: none;
+}
+
+.login-form > button {
+  margin-top: 8px;
   width: 100%;
   padding: 13px 16px;
   border: none;
@@ -96,9 +127,37 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.login-form button:hover {
+.login-form > button:hover {
   transform: translateY(-1px);
   box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+}
+
+.form-error {
+  background: #fff4e5;
+  border: 1px solid #f5c27a;
+  color: #b45309;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.success-message {
+  background: #ecfdf3;
+  border: 1px solid #86efac;
+  color: #166534;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 13px;
+  margin-top: -4px;
+  margin-bottom: 2px;
+  font-weight: 500;
 }
 
 .forgot-password {
@@ -111,7 +170,7 @@
   transition: color 0.2s ease;
 }
 
-.forgot.password:hover {
+.forgot-password:hover {
   color: #4f46e5;
   text-decoration: underline;
 }
@@ -134,11 +193,11 @@
 }
 
 @media (max-width: 480px) {
-  .Login-container {
+  .login-container {
     padding: 16px;
   }
 
-  .logo-page {
+  .login-page {
     padding: 24px 20px;
     border-radius: 18px;
   }

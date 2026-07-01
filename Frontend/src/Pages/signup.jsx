@@ -143,14 +143,23 @@ function Signup() {
                     )}
                     <label>Password</label>
                     <div className="password-field">
-                        <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => {
-                            setPassword(e.target.value); setPasswordError("");
-                            setFormError("");
-                        }} required />
+                        <input
+                            className="password-input"
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                setPasswordError("");
+                                setFormError("");
+                            }}
+                            required
+                        />
                         <button
                             type="button"
                             className="toggle-password"
                             onClick={() => setShowpassword(!showPassword)}
+                            aria-label={showPassword ? "Hide password" : "Show password"}
                         >
                             {showPassword ? "🙈" : "👁"}
                         </button>
@@ -162,14 +171,22 @@ function Signup() {
                     )}
                     <label>Confirm Password</label>
                     <div className="password-field">
-                        <input type={showconfirmPassword ? "text" : "password"} placeholder="Confirm Password" value={confirmPassword} onChange={(e) => {
-                            setConfirmpassword(e.target.value); setConfirmPassworderror("");
-                            setFormError("");
-                        }} />
+                        <input
+                            className="password-input"
+                            type={showconfirmPassword ? "text" : "password"}
+                            placeholder="Confirm Password"
+                            value={confirmPassword}
+                            onChange={(e) => {
+                                setConfirmpassword(e.target.value);
+                                setConfirmPassworderror("");
+                                setFormError("");
+                            }}
+                        />
                         <button
                             type="button"
                             className="toggle-password"
                             onClick={() => setShowConfirmpassword(!showconfirmPassword)}
+                            aria-label={showconfirmPassword ? "Hide confirm password" : "Show confirm password"}
                         >
                             {showconfirmPassword ? "🙈" : "👁"}
                         </button>
