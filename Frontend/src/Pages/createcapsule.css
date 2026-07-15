@@ -1,0 +1,499 @@
+/* Styles for CreateCapsule page — using class names from createcapsule.jsx */
+.capsule-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #f7f4ff 0%, #eef2ff 100%);
+}
+
+.capsule-card {
+  width: min(100%, 700px);
+  background: #ffffff;
+  padding: 32px 28px;
+  border-radius: 24px;
+  box-shadow: 0 20px 45px rgba(108, 99, 255, 0.14);
+  border: 1px solid rgba(108, 99, 255, 0.08);
+}
+
+.capsule-card h1 {
+  font-size: 26px;
+  color: #1f2937;
+  font-weight: 700;
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.capsule-card p {
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0 0 18px;
+  text-align: center;
+}
+
+.capsule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.capsule-form label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.capsule-form input,
+.capsule-form select,
+.capsule-form textarea{
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #d9dcef;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #111827;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.capsule-form textarea{ resize: vertical; }
+
+.capsule-form input:focus,
+.capsule-form textarea:focus,
+.capsule-form select:focus{
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.12);
+}
+
+.counter{
+  text-align:right;
+  color:gray;
+  font-size:13px;
+  margin-top:5px;
+}
+
+.preview{
+  width:180px;
+  margin-top:15px;
+  border-radius:12px;
+  border:2px solid #ddd;
+}
+
+.capsule-form > button{
+  margin-top: 8px;
+  padding: 13px 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6c63ff, #4f46e5);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.capsule-form > button:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.18);
+}
+
+.capsule-form > button:disabled{
+  opacity: .7;
+  cursor: not-allowed;
+}
+
+.form-error{
+  color:#b45309;
+  background:#fff4e5;
+  border:1px solid #f5c27a;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:18px;
+  font-size:14px;
+  font-weight:600;
+}
+
+.success-message{
+  color:#166534;
+  background:#ecfdf3;
+  border:1px solid #86efac;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:18px;
+  font-size:14px;
+  font-weight:600;
+}
+
+@media(max-width:768px){
+  .capsule-card{ padding:25px; }
+}
+
+@media(max-width:480px){
+  .capsule-container{ padding:16px; }
+  .capsule-card{ padding:24px 20px; border-radius:18px; }
+  .capsule-card h1{ font-size:24px; }
+}
+/* Styles for CreateCapsule page — using class names from createcapsule.jsx */
+.capsule-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #f7f4ff 0%, #eef2ff 100%);
+}
+
+.capsule-card {
+  width: min(100%, 700px);
+  background: #ffffff;
+  padding: 32px 28px;
+  border-radius: 24px;
+  box-shadow: 0 20px 45px rgba(108, 99, 255, 0.14);
+  border: 1px solid rgba(108, 99, 255, 0.08);
+}
+
+.capsule-card h1 {
+  font-size: 26px;
+  color: #1f2937;
+  font-weight: 700;
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.capsule-card p {
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0 0 18px;
+  text-align: center;
+}
+
+.capsule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.capsule-form label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.capsule-form input,
+.capsule-form select,
+.capsule-form textarea{
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #d9dcef;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #111827;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.capsule-form textarea{ resize: vertical; }
+
+.capsule-form input:focus,
+.capsule-form textarea:focus,
+.capsule-form select:focus{
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.12);
+}
+
+.counter{
+  text-align:right;
+  color:gray;
+  font-size:13px;
+  margin-top:5px;
+}
+
+.preview{
+  width:180px;
+  margin-top:15px;
+  border-radius:12px;
+  border:2px solid #ddd;
+}
+
+.capsule-form > button{
+  margin-top: 8px;
+  padding: 13px 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6c63ff, #4f46e5);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.capsule-form > button:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.18);
+}
+
+.capsule-form > button:disabled{
+  opacity: .7;
+  cursor: not-allowed;
+}
+
+.form-error{
+  color:#b45309;
+  background:#fff4e5;
+  border:1px solid #f5c27a;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:18px;
+  font-size:14px;
+  font-weight:600;
+}
+
+.success-message{
+  color:#166534;
+  background:#ecfdf3;
+  border:1px solid #86efac;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:18px;
+  font-size:14px;
+  font-weight:600;
+}
+
+@media(max-width:768px){
+  .capsule-card{ padding:25px; }
+}
+
+@media(max-width:480px){
+  .capsule-container{ padding:16px; }
+  .capsule-card{ padding:24px 20px; border-radius:18px; }
+  .capsule-card h1{ font-size:24px; }
+}
+.signup-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #f7f4ff 0%, #eef2ff 100%);
+}
+
+.signup-page {
+  width: min(100%, 700px);
+  background: #ffffff;
+  padding: 32px 28px;
+  border-radius: 24px;
+  box-shadow: 0 20px 45px rgba(108, 99, 255, 0.14);
+  border: 1px solid rgba(108, 99, 255, 0.08);
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.logo-section h2 {
+  color: #6c63ff;
+  .capsule-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      box-sizing: border-box;
+      background: linear-gradient(135deg, #f7f4ff 0%, #eef2ff 100%);
+  }
+
+  .capsule-card {
+    width: min(100%, 700px);
+    background: #ffffff;
+    padding: 32px 28px;
+    border-radius: 24px;
+    box-shadow: 0 20px 45px rgba(108, 99, 255, 0.14);
+    border: 1px solid rgba(108, 99, 255, 0.08);
+  }
+
+  .capsule-card h1 {
+    font-size: 26px;
+    color: #1f2937;
+    font-weight: 700;
+    margin: 0 0 8px;
+    text-align: center;
+  }
+
+  .capsule-card p {
+    color: #6b7280;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0 0 18px;
+    text-align: center;
+  }
+
+  .capsule-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .capsule-form label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .capsule-form input,
+  .capsule-form select,
+  .capsule-form textarea{
+    .capsule-container {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 24px;
+        box-sizing: border-box;
+        background: linear-gradient(135deg, #f7f4ff 0%, #eef2ff 100%);
+    }
+
+    .capsule-card {
+      width: min(100%, 700px);
+      background: #ffffff;
+      padding: 32px 28px;
+      border-radius: 24px;
+      box-shadow: 0 20px 45px rgba(108, 99, 255, 0.14);
+      border: 1px solid rgba(108, 99, 255, 0.08);
+    }
+
+    .capsule-card h1 {
+      font-size: 26px;
+      color: #1f2937;
+      font-weight: 700;
+      margin: 0 0 8px;
+      text-align: center;
+    }
+
+    .capsule-card p {
+      color: #6b7280;
+      font-size: 15px;
+      line-height: 1.5;
+      margin: 0 0 18px;
+      text-align: center;
+    }
+
+    .capsule-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .capsule-form label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .capsule-form input,
+    .capsule-form select,
+    .capsule-form textarea{
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d9dcef;
+      border-radius: 12px;
+      font-size: 15px;
+      color: #111827;
+      background-color: #ffffff;
+      box-sizing: border-box;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .capsule-form textarea{ resize: vertical; }
+
+    .capsule-form input:focus,
+    .capsule-form textarea:focus,
+    .capsule-form select:focus{
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.12);
+    }
+
+    .counter{
+        text-align:right;
+        color:gray;
+        font-size:13px;
+        margin-top:5px;
+    }
+
+    .preview{
+        width:180px;
+        margin-top:15px;
+        border-radius:12px;
+        border:2px solid #ddd;
+    }
+
+    .capsule-form > button{
+      margin-top: 8px;
+      padding: 13px 16px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6c63ff, #4f46e5);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .capsule-form > button:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.18);
+    }
+
+    .capsule-form > button:disabled{
+      opacity: .7;
+      cursor: not-allowed;
+    }
+
+    .form-error{
+        color:#b45309;
+        background:#fff4e5;
+        border:1px solid #f5c27a;
+        border-radius:10px;
+        padding:12px;
+        margin-bottom:18px;
+        font-size:14px;
+        font-weight:600;
+    }
+
+    .success-message{
+        color:#166534;
+        background:#ecfdf3;
+        border:1px solid #86efac;
+        border-radius:10px;
+        padding:12px;
+        margin-bottom:18px;
+        font-size:14px;
+        font-weight:600;
+    }
+
+    @media(max-width:768px){
+        .capsule-card{ padding:25px; }
+    }
+
+    @media(max-width:480px){
+        .capsule-container{ padding:16px; }
+        .capsule-card{ padding:24px 20px; border-radius:18px; }
+        .capsule-card h1{ font-size:24px; }
+    }
