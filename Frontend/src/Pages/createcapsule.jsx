@@ -1,245 +1,410 @@
-import { useState } from "react";
-import "./CreateCapsule.css";
+import { useMemo, useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { IoArrowBackOutline, IoCloudUploadOutline } from "react-icons/io5";
+import CapsulePreview from "./capsulepreview";
+import "./createcapsule.css";
 
-function CreateCapsule() {
+const emptyCapsule = {
+  title: "",
+  recipientName: "",
+  recipientEmail: "",
+  privacy: "private",
+  sharedEmails: "",
+  category: "Personal",
+  message: "",
+  unlockDate: "",
+  image: null,
+};
 
-    const [title, setTitle] = useState("");
-    const [recipientName, setRecipientName] = useState("");
-    const [recipientEmail, setRecipientEmail] = useState("");
-    const [category, setCategory] = useState("");
-    const [message, setMessage] = useState("");
-    const [unlockDate, setUnlockDate] = useState("");
-    const [image, setImage] = useState(null);
+export default function CreateCapsule() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [showPreview, setShowPreview] = useState(false);
+  const existing = location.state?.capsule;
 
-    const [formError, setFormError] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
-    const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState(() => ({
+    ...emptyCapsule,
+    ...(existing || {}),
+  }));
+  const [error, setError] = useState("");
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
 
-    const today = new Date().toISOString().split("T")[0];
+  const imagePreview = useMemo(() => {
+    if (!form.image) return "";
+    if (typeof form.image === "string") return form.image;
+    return URL.createObjectURL(form.image);
+  }, [form.image]);
 
-    function handleImage(e) {
-        if (e.target.files.length > 0) {
-            setImage(e.target.files[0]);
-        }
+  useEffect(() => {
+    return () => {
+      if (imagePreview?.startsWith("blob:")) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
+
+  const updateField = (event) => {
+    const { name, value, files } = event.target;
+    setError("");
+
+    if (name === "image") {
+      const file = files?.[0];
+      if (!file) return;
+
+      if (!file.type.startsWith("image/")) {
+        setError("Please select a valid image.");
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        setError("Image size must be 5 MB or less.");
+        return;
+      }
+
+      setForm((prev) => ({ ...prev, image: file }));
+      return;
     }
 
-    function handleSubmit(e) {
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
 
-        e.preventDefault();
+  const handlePreview = (event) => {
+    event.preventDefault();
 
-        setFormError("");
-        setSuccessMessage("");
-
-        if (
-            title.trim() === "" ||
-            recipientName.trim() === "" ||
-            recipientEmail.trim() === "" ||
-            category === "" ||
-            message.trim() === "" ||
-            unlockDate === ""
-        ) {
-            setFormError("Please fill all required fields.");
-            return;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (!emailRegex.test(recipientEmail)) {
-            setFormError("Please enter a valid recipient email.");
-            return;
-        }
-
-        if (message.length < 20) {
-            setFormError("Message should contain at least 20 characters.");
-            return;
-        }
-
-        setLoading(true);
-
-        setTimeout(() => {
-
-            setLoading(false);
-
-            setSuccessMessage(
-                `🎉 Time Capsule created successfully! It will be delivered to ${recipientName} on ${unlockDate}.`
-            );
-
-            console.log({
-                title,
-                recipientName,
-                recipientEmail,
-                category,
-                message,
-                unlockDate,
-                image
-            });
-
-        }, 2000);
-
+    if (
+      !form.title.trim() ||
+      !form.recipientName.trim() ||
+      !form.recipientEmail.trim() ||
+      !form.message.trim() ||
+      !form.unlockDate
+    ) {
+      setError("Please fill in all required fields.");
+      return;
     }
 
-    return (
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        <div className="capsule-container">
+    if (!emailPattern.test(form.recipientEmail.trim())) {
+      setError("Please enter a valid recipient email address.");
+      return;
+    }
 
-            <div className="capsule-card">
+    if (form.message.trim().length < 20) {
+      setError("Your message must contain at least 20 characters.");
+      return;
+    }
 
-                <h1>Create Time Capsule</h1>
+    if (new Date(form.unlockDate) < new Date(new Date().toDateString())) {
+      setError("Please select today or a future date.");
+      return;
+    }
 
-                <p>
-                    Create a memory today that will be opened in the future.
-                </p>
+    if (form.privacy === "shared" && form.sharedEmails.trim()) {
+      const emails = form.sharedEmails
+        .split(",")
+        .map((email) => email.trim())
+        .filter(Boolean);
 
-                {formError &&
-                    <div className="form-error">
-                        {formError}
-                    </div>
-                }
+      if (emails.some((email) => !emailPattern.test(email))) {
+        setError("Please check the additional email addresses.");
+        return;
+      }
 
-                {successMessage &&
-                    <div className="success-message">
-                        {successMessage}
-                    </div>
-                }
+      const allEmails = [form.recipientEmail.trim(), ...emails].map((email) =>
+        email.toLowerCase(),
+      );
 
-                <form
-                    className="capsule-form"
-                    onSubmit={handleSubmit}
-                >
+      if (new Set(allEmails).size !== allEmails.length) {
+        setError("Please remove duplicate email addresses.");
+        return;
+      }
+    }
 
-                    <label>Capsule Title</label>
+    setShowPreview(true);
+  };
 
-                    <input
-                        type="text"
-                        placeholder="Enter capsule title"
-                        value={title}
-                        onChange={(e)=>setTitle(e.target.value)}
-                    />
+  return (
+    <main className="capsule-page">
+      <div className="capsule-topbar">
+        <button
+          type="button"
+          className="capsule-back"
+          onClick={() => navigate("/dashboard")}
+        >
+          <IoArrowBackOutline /> Dashboard
+        </button>
+        <span className="capsule-brand">⏳ TimeCapsule</span>
+      </div>
 
-                    <label>Recipient Name</label>
-
-                    <input
-                        type="text"
-                        placeholder="Enter recipient name"
-                        value={recipientName}
-                        onChange={(e)=>setRecipientName(e.target.value)}
-                    />
-
-                    <label>Recipient Email</label>
-
-                    <input
-                        type="email"
-                        placeholder="Enter recipient email"
-                        value={recipientEmail}
-                        onChange={(e)=>setRecipientEmail(e.target.value)}
-                    />
-
-                    <label>Category</label>
-
-                    <select
-                        value={category}
-                        onChange={(e)=>setCategory(e.target.value)}
-                    >
-                        <option value="">Select Category</option>
-                        <option>Birthday</option>
-                        <option>Friendship</option>
-                        <option>Wedding</option>
-                        <option>Travel</option>
-                        <option>Graduation</option>
-                        <option>Family</option>
-                        <option>Personal</option>
-                    </select>
-
-                    <label>Your Message</label>
-
-                    <textarea
-
-                        rows="7"
-
-                        maxLength="1000"
-
-                        placeholder="Write your memory..."
-
-                        value={message}
-
-                        onChange={(e)=>setMessage(e.target.value)}
-
-                    />
-
-                    <div className="counter">
-
-                        {message.length}/1000
-
-                    </div>
-
-                    <label>Unlock Date</label>
-
-                    <input
-
-                        type="date"
-
-                        min={today}
-
-                        value={unlockDate}
-
-                        onChange={(e)=>setUnlockDate(e.target.value)}
-
-                    />
-
-                    <label>Upload Memory Photo</label>
-
-                    <input
-
-                        type="file"
-
-                        accept="image/*"
-
-                        onChange={handleImage}
-
-                    />
-
-                    {image &&
-
-                        <img
-
-                            className="preview"
-
-                            src={URL.createObjectURL(image)}
-
-                            alt="preview"
-
-                        />
-
-                    }
-
-                    <button
-
-                        type="submit"
-
-                        disabled={loading}
-
-                    >
-
-                        {loading ?
-
-                            "Creating Capsule..."
-
-                            :
-
-                            "Create Capsule"
-
-                        }
-
-                    </button>
-
-                </form>
-
-            </div>
-
+      <section className="capsule-card">
+        <div className="capsule-heading">
+          <span className="capsule-icon">💌</span>
+          <h1>Create a Time Capsule</h1>
+          <p>Write a memory today. Let it be discovered in the future.</p>
         </div>
 
-    );
+        <form onSubmit={handlePreview} className="capsule-form">
+          <div className="capsule-field">
+            <label htmlFor="title">
+              Capsule title{" "}
+              <span className="required-mark" aria-hidden="true">
+                *
+              </span>
+            </label>
+            <input
+              id="title"
+              name="title"
+              value={form.title}
+              onChange={updateField}
+              placeholder="e.g. A letter to my future self"
+              maxLength={100}
+            />
+          </div>
 
+          <div className="capsule-grid">
+            <div className="capsule-field">
+              <label htmlFor="recipientName">
+                Recipient name{" "}
+                <span className="required-mark" aria-hidden="true">
+                  *
+                </span>
+              </label>
+              <input
+                id="recipientName"
+                name="recipientName"
+                value={form.recipientName}
+                onChange={updateField}
+                placeholder="Enter recipient's name"
+              />
+            </div>
+
+            <div className="capsule-field">
+              <label htmlFor="recipientEmail">
+                Recipient email{" "}
+                <span className="required-mark" aria-hidden="true">
+                  *
+                </span>
+              </label>
+              <input
+                id="recipientEmail"
+                name="recipientEmail"
+                type="email"
+                value={form.recipientEmail}
+                onChange={updateField}
+                placeholder="name@example.com"
+              />
+            </div>
+          </div>
+
+          <div className="capsule-field">
+            <label>Who can access this capsule?</label>
+            <div className="privacy-options">
+              <label
+                className={`privacy-option ${
+                  form.privacy === "private" ? "selected" : ""
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="privacy"
+                  value="private"
+                  checked={form.privacy === "private"}
+                  onChange={updateField}
+                />
+                <span>🔒</span>
+                <strong>Private</strong>
+                <small>Intended for the primary recipient</small>
+              </label>
+
+              <label
+                className={`privacy-option ${
+                  form.privacy === "shared" ? "selected" : ""
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="privacy"
+                  value="shared"
+                  checked={form.privacy === "shared"}
+                  onChange={updateField}
+                />
+                <span>👥</span>
+                <strong>Shared</strong>
+                <small>Specify additional recipients</small>
+              </label>
+            </div>
+            <p className="capsule-note">
+              These privacy choices are currently UI-only. Actual recipient
+              access restrictions will be implemented with the backend.
+            </p>
+          </div>
+
+          {form.privacy === "shared" && (
+            <div className="capsule-field">
+              <label htmlFor="sharedEmails">Additional recipient emails</label>
+              <input
+                id="sharedEmails"
+                name="sharedEmails"
+                value={form.sharedEmails}
+                onChange={updateField}
+                placeholder="friend@example.com, family@example.com"
+              />
+              <small>Separate email addresses with commas.</small>
+            </div>
+          )}
+
+          <div className="capsule-grid">
+            <div className="capsule-field">
+              <label htmlFor="category">Category</label>
+              <select
+                id="category"
+                name="category"
+                value={form.category}
+                onChange={updateField}
+              >
+                <option value="">Select a category</option>
+                <option value="Friends">👯 Friends</option>
+                <option value="Family">🏡 Family</option>
+                <option value="Cousins">💖 Cousins</option>
+                <option value="Love & Romance">❤️ Love & Romance</option>
+                <option value="Birthday">🎂 Birthday</option>
+                <option value="Anniversary">💍 Anniversary</option>
+                <option value="School Memories">🎓 School Memories</option>
+                <option value="College Memories">🏫 College Memories</option>
+                <option value="Travel">✈️ Travel</option>
+                <option value="Festivals & Celebrations">
+                  🎉 Festivals & Celebrations
+                </option>
+                <option value="Special Moments">✨ Special Moments</option>
+                <option value="Future Self">⏳ Future Self</option>
+                <option value="Achievements">🏆 Achievements</option>
+                <option value="Thank You">🙏 Thank You</option>
+                <option value="Apology">💌 Apology</option>
+                <option value="Other">🌈 Other</option>
+              </select>
+            </div>
+
+            <div className="capsule-field">
+              <label htmlFor="unlockDate">
+                Unlock date{" "}
+                <span className="required-mark" aria-hidden="true">
+                  *
+                </span>
+              </label>
+              <input
+                id="unlockDate"
+                name="unlockDate"
+                type="date"
+                min={new Date().toLocaleDateString("en-CA")}
+                value={form.unlockDate}
+                onChange={updateField}
+              />
+            </div>
+          </div>
+
+          <div className="capsule-field">
+            <label htmlFor="message">
+              Your message{" "}
+              <span className="required-mark" aria-hidden="true">
+                *
+              </span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              value={form.message}
+              onChange={updateField}
+              placeholder="Write a heartfelt message for the future..."
+              rows={6}
+              maxLength={5000}
+            />
+            <small>{form.message.length}/5000 characters (minimum 20)</small>
+          </div>
+
+          <div className="capsule-field">
+            <label htmlFor="image">Add a memory image (optional)</label>
+            <label className="capsule-upload" htmlFor="image">
+              <IoCloudUploadOutline size={28} />
+              <strong>Choose an image</strong>
+              <span>JPG, PNG or other image format · Max 5 MB</span>
+            </label>
+            <input
+              className="capsule-file-input"
+              id="image"
+              name="image"
+              type="file"
+              accept="image/*"
+              onChange={updateField}
+            />
+
+            {imagePreview && (
+              <div className="capsule-image-preview">
+                <img src={imagePreview} alt="Selected memory preview" />
+                <button
+                  type="button"
+                  className="capsule-remove-image"
+                  onClick={() => setForm((prev) => ({ ...prev, image: null }))}
+                >
+                  Remove image
+                </button>
+              </div>
+            )}
+          </div>
+
+          {error && <p className="capsule-error">{error}</p>}
+
+          <div className="capsule-actions">
+            <button
+              type="button"
+              className="capsule-secondary-btn"
+              onClick={() => setShowCancelDialog(true)}
+            >
+              Cancel
+            </button>
+            <button type="submit" className="capsule-primary-btn">
+              Preview Capsule →
+            </button>
+          </div>
+        </form>
+      </section>
+
+      {showCancelDialog && (
+        <div className="capsule-modal-overlay">
+          <div className="capsule-modal" role="dialog" aria-modal="true">
+            <h2>Cancel this capsule?</h2>
+            <p>
+              Your entered details will be discarded if you leave. Are you sure
+              you want to return to the dashboard?
+            </p>
+            <div className="capsule-actions">
+              <button
+                className="capsule-secondary-btn"
+                onClick={() => setShowCancelDialog(false)}
+              >
+                Keep Editing
+              </button>
+              <button
+                className="capsule-primary-btn"
+                onClick={() => navigate("/dashboard")}
+              >
+                Yes, Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showPreview && (
+        <CapsulePreview
+          capsule={form}
+          onClose={() => setShowPreview(false)}
+          onConfirm={() => {
+            navigate("/confirmation", {
+              state: { capsule: form },
+            });
+          }}
+          onCancel={() => navigate("/dashboard")}
+        />
+      )}
+    </main>
+  );
 }
-
-export default CreateCapsule;

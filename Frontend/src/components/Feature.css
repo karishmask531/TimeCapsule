@@ -1,36 +1,101 @@
-.feature{
-    padding:  80px 50px;
-    text-align: center;
+.features {
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  padding: 38px 5% 48px;
+  color: #282344;
+  text-align: center;
 }
-.feature h2{
-    font-size: 40px;
-    color: #6c63ff;
-    margin-bottom: 20px;
+
+.features h2 {
+  margin: 0 0 22px;
+  color: #30294a;
+  font-size: clamp(22px, 2.5vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
-.features-list{
-    display:grid;
-    grid-template-columns: repeat(2,1fr);
-    gap:30px;
+
+.features-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 18px;
 }
-.feature-card{
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+.feature-card {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid #ece8f7;
+  border-radius: 19px;
+  background: #fff;
+  box-shadow: 0 7px 22px rgba(67, 47, 111, 0.035);
+  transition: transform 0.22s ease, box-shadow 0.22s ease,
+    border-color 0.22s ease;
 }
-.feature-card:hover{
-    transform: translateY(-8px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: #d9d0ff;
+  box-shadow: 0 14px 28px rgba(77, 57, 132, 0.09);
 }
-.feature-card h3{
-    font-size: 45px;
+
+.feature-card h3 {
+  width: 49px;
+  height: 49px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 17px;
+  border-radius: 15px;
+  background: #f0edff;
+  color: #7862ec;
+  font-size: 27px;
 }
-.feature.card h4{
-    margin-top: 15px;
-    color: #4f46e5
+
+.feature-card:nth-child(2) h3 {
+  background: #eaf7f2;
 }
-.feature-card p{
-    margin-top: 10px;
-    color: #555;
+
+.feature-card:nth-child(3) h3 {
+  background: #fff0f5;
+}
+
+.feature-card:nth-child(4) h3 {
+  background: #fff5e8;
+}
+
+.feature-card h4 {
+  margin: 0;
+  color: #30294a;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.feature-card p {
+  margin: 9px 0 0;
+  color: #898299;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .features {
+    padding: 29px 16px 36px;
+  }
+
+  .features h2 {
+    margin-bottom: 18px;
+  }
+
+  .features-list {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  .feature-card {
+    padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature-card {
+    transition: none;
+  }
 }

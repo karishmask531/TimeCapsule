@@ -4,197 +4,244 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./login.css";
 
 function Login() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  // Input states
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    // Input States
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  // Error states
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [formError, setFormError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-    // Error States
-    const [emailError, setEmailError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
-    const [formError, setFormError] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
+  // Password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
-    // Password Visibility
-    const [showPassword, setShowPassword] = useState(false);
+  // Loading state
+  const [isLoading, setIsLoading] = useState(false);
 
-    // Loading State
-    const [isLoading, setIsLoading] = useState(false);
+  function validateEmail(value) {
+    const trimmedEmail = value.trim();
 
-    function handleLogin(e) {
+    // Basic email format validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-        e.preventDefault();
-
-        // Clear previous errors
-        setEmailError("");
-        setPasswordError("");
-        setFormError("");
-        setSuccessMessage("");
-
-        let isValid = true;
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        // Email Validation
-        if (email.trim() === "") {
-            setEmailError("Please enter your email.");
-            isValid = false;
-        }
-        else if (!emailRegex.test(email)) {
-            setEmailError("Please enter a valid email.");
-            isValid = false;
-        }
-
-        // Password Validation
-        if (password === "") {
-            setPasswordError("Please enter your password.");
-            isValid = false;
-        }
-
-        if (!isValid) {
-            setFormError("⚠ Please correct the errors below.");
-            return;
-        }
-
-        // Simulate Login API
-        setIsLoading(true);
-
-        setTimeout(() => {
-
-            setIsLoading(false);
-
-            setSuccessMessage("✅ Login Successful!");
-
-            setTimeout(() => {
-
-                navigate("/dashboard");
-
-            }, 1500);
-
-        }, 2000);
-
+    if (!trimmedEmail) {
+      return "Please enter your email.";
     }
 
-    return (
+    if (trimmedEmail.length > 254) {
+      return "Email address is too long.";
+    }
 
-        <div className="login-container">
+    if (!emailRegex.test(trimmedEmail)) {
+      return "Please enter a valid email address.";
+    }
 
-            <div className="login-page">
+    const [localPart, domain] = trimmedEmail.split("@");
 
-                <div className="logo-section">
-                    <h2>⏳ TimeCapsule</h2>
-                </div>
+    if (localPart.length > 64) {
+      return "The email username is too long.";
+    }
 
-                <div className="heading-section">
-                    <h1>Welcome Back 👋</h1>
-                    <p>Continue your journey by logging in.</p>
-                </div>
+    if (localPart.startsWith(".") || localPart.endsWith(".")) {
+      return "Email cannot start or end with a dot before @.";
+    }
 
-                {formError &&
-                    <div className="form-error">
-                        {formError}
-                    </div>
-                }
+    if (localPart.includes("..")) {
+      return "Email cannot contain consecutive dots.";
+    }
 
-                {successMessage &&
-                    <div className="success-message">
-                        {successMessage}
-                    </div>
-                }
+    if (
+      domain.includes("..") ||
+      domain.startsWith(".") ||
+      domain.endsWith(".")
+    ) {
+      return "Please enter a valid email domain.";
+    }
 
-                <form
-                    className="login-form"
-                    onSubmit={handleLogin}
-                >
+    return "";
+  }
 
-                    <label>Email Address</label>
+  function validatePassword(value) {
+    if (!value) {
+      return "Please enter your password.";
+    }
 
-                    <input
-                        type="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                            setEmailError("");
-                            setFormError("");
-                        }}
-                    />
+    if (/\s/.test(value)) {
+      return "Password cannot contain spaces.";
+    }
 
-                    {emailError &&
-                        <p className="error-message">
-                            {emailError}
-                        </p>
-                    }
+    if (value.length < 8) {
+      return "Password must contain at least 8 characters.";
+    }
 
-                    <label>Password</label>
+    if (value.length > 128) {
+      return "Password cannot exceed 128 characters.";
+    }
 
-                    <div className="password-field">
-                        <input
-                            className="password-input"
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Enter your password"
-                            value={password}
-                            onChange={(e) => {
-                                setPassword(e.target.value);
-                                setPasswordError("");
-                                setFormError("");
-                            }}
-                        />
+    if (!/[A-Z]/.test(value)) {
+      return "Include at least one uppercase letter (A-Z).";
+    }
 
-                        <button
-                            type="button"
-                            className="eye-btn"
-                            onClick={() => setShowPassword(!showPassword)}
-                            aria-label={showPassword ? "Hide password" : "Show password"}
-                        >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                        </button>
-                    </div>
+    if (!/[a-z]/.test(value)) {
+      return "Include at least one lowercase letter (a-z).";
+    }
 
-                    {passwordError &&
-                        <p className="error-message">
-                            {passwordError}
-                        </p>
-                    }
+    if (!/[0-9]/.test(value)) {
+      return "Include at least one number (0-9).";
+    }
 
-                    <p className="forgot-password">
-                        Forgot Password?
-                    </p>
+    if (!/[^A-Za-z0-9\s]/.test(value)) {
+      return "Include at least one special character, such as @ or #.";
+    }
 
-                    <button
+    return "";
+  }
 
-                        type="submit"
+  function handleLogin(e) {
+    e.preventDefault();
 
-                        disabled={isLoading}
+    if (isLoading) return;
 
-                    >
+    setEmailError("");
+    setPasswordError("");
+    setFormError("");
+    setSuccessMessage("");
 
-                        {isLoading ? "Logging in..." : "Login"}
+    const emailValidationError = validateEmail(email);
+    const passwordValidationError = validatePassword(password);
 
-                    </button>
+    setEmailError(emailValidationError);
+    setPasswordError(passwordValidationError);
 
-                </form>
+    if (emailValidationError || passwordValidationError) {
+      setFormError("Please correct the errors below.");
+      return;
+    }
 
-                <p className="signup-link">
+    // Frontend demonstration only; no real authentication yet.
+    setIsLoading(true);
 
-                    Don't have an account?
+    setTimeout(() => {
+      setIsLoading(false);
+      setSuccessMessage("Login form validated successfully!");
 
-                    <Link to="/signup">
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000);
+    }, 800);
+  }
 
-                        {" "}Sign Up
-
-                    </Link>
-
-                </p>
-
-            </div>
-
+  return (
+    <div className="login-container">
+      <div className="login-page">
+        <div className="logo-section">
+          <h2>⏳ TimeCapsule</h2>
         </div>
 
-    );
+        <div className="heading-section">
+          <h1>Welcome Back 👋</h1>
+          <p>Continue your journey by logging in.</p>
+        </div>
 
+        {formError && (
+          <div className="form-error" role="alert">
+            ⚠ {formError}
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="success-message" role="status">
+            ✅ {successMessage}
+          </div>
+        )}
+
+        <form className="login-form" onSubmit={handleLogin} noValidate>
+          <label htmlFor="login-email">
+            Email Address <span className="required-star">*</span>
+          </label>
+
+          <input
+            id="login-email"
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            autoComplete="email"
+            maxLength={254}
+            disabled={isLoading}
+            aria-invalid={Boolean(emailError)}
+            aria-describedby={emailError ? "email-error" : undefined}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setEmailError("");
+              setFormError("");
+              setSuccessMessage("");
+            }}
+          />
+
+          {emailError && (
+            <p id="email-error" className="error-message" role="alert">
+              {emailError}
+            </p>
+          )}
+
+          <label htmlFor="login-password">
+            Password <span className="required-star">*</span>
+          </label>
+
+          <div className="password-field">
+            <input
+              id="login-password"
+              className="password-input"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your password"
+              value={password}
+              autoComplete="current-password"
+              maxLength={128}
+              disabled={isLoading}
+              aria-invalid={Boolean(passwordError)}
+              aria-describedby={passwordError ? "password-error" : undefined}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError("");
+                setFormError("");
+                setSuccessMessage("");
+              }}
+            />
+
+            <button
+              type="button"
+              className="eye-btn"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              disabled={isLoading}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+
+          {passwordError && (
+            <p id="password-error" className="error-message" role="alert">
+              {passwordError}
+            </p>
+          )}
+
+          <p className="forgot-password">Forgot Password?</p>
+
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Checking..." : "Login"}
+          </button>
+        </form>
+
+        <p className="signup-link">
+          Don't have an account? <Link to="/signup">Sign Up</Link>
+        </p>
+      </div>
+    </div>
+  );
 }
 
 export default Login;

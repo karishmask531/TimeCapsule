@@ -1,29 +1,109 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding:  20px 50px;
-    background-color: #6c63ff;
-    color: white;
+  min-height: 76px;
+  padding: 14px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid #eeebf8;
+  background: rgba(255, 255, 255, 0.94);
+  color: #282344;
 }
-.logo{
-    color:white;
-    font-size: 20px;
-    font-weight: bold;
+
+.navbar .logo {
+  margin: 0;
+  color: #292344;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
 }
+
 .nav-buttons {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.nav-buttons button {
-    padding: 8px 16px;
-    background-color: white;
-    color: #6c63ff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+
+.nav-buttons a {
+  text-decoration: none;
 }
-.nav-buttons button:hover {
-    background-color: #5848d6;
-    color: white;
+
+.navbar .nav-buttons button {
+  min-height: 42px;
+  margin: 0;
+  padding: 10px 16px;
+  border: 1px solid #e8e2f7;
+  border-radius: 11px;
+  background: #fff;
+  color: #6e6686;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.navbar .nav-buttons button:hover {
+  border-color: #d9d0ff;
+  background: #f0edff;
+  color: #6c5ce7;
+  transform: translateY(-1px);
+}
+
+.navbar .nav-buttons a:last-child button {
+  border-color: #6955e8;
+  background: linear-gradient(135deg, #8870ff, #6955e8);
+  color: #fff;
+}
+
+.navbar .nav-buttons a:last-child button:hover {
+  border-color: #5848df;
+  background: linear-gradient(135deg, #7863f2, #5848df);
+  color: #fff;
+}
+
+.navbar button:focus-visible {
+  outline: 3px solid rgba(108, 99, 255, 0.45);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    min-height: 66px;
+    padding: 14px 5%;
+  }
+
+  .navbar .logo {
+    font-size: 19px;
+  }
+
+  .nav-buttons {
+    gap: 8px;
+  }
+
+  .navbar .nav-buttons button {
+    min-height: 39px;
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .navbar {
+    gap: 10px;
+    padding-inline: 12px;
+  }
+
+  .navbar .logo {
+    font-size: 17px;
+  }
+
+  .nav-buttons {
+    gap: 6px;
+  }
+
+  .navbar .nav-buttons button {
+    padding-inline: 9px;
+  }
 }
