@@ -353,6 +353,13 @@ function Signup() {
                     <button type="submit" disabled={isLoading}>
                         {isLoading ? "Creating account..." : "Sign Up"}
                     </button>
+                    <button
+  type="button"
+  className="cancel-btn"
+  onClick={() => navigate("/")}
+>
+  Cancel
+</button>
                 </form>
 
                 <p className="login-link">

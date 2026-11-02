@@ -1,12 +1,38 @@
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { IoCheckmarkCircleOutline } from "react-icons/io5";
+import {
+  IoCheckmarkCircleOutline,
+  IoCalendarOutline,
+  IoTimeOutline,
+  IoMailOutline,
+} from "react-icons/io5";
 import "./confirmation.css";
 
 export default function Confirmation() {
   const navigate = useNavigate();
   const location = useLocation();
   const capsule = location.state?.capsule;
+
+  const formattedDate = capsule?.unlockDate
+    ? new Date(`${capsule.unlockDate}T00:00:00`).toLocaleDateString(
+        undefined,
+        {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }
+      )
+    : "Not selected";
+
+  const formattedTime = capsule?.unlockTime
+    ? new Date(`2000-01-01T${capsule.unlockTime}`).toLocaleTimeString(
+        [],
+        {
+          hour: "numeric",
+          minute: "2-digit",
+        }
+      )
+    : "Not selected";
 
   return (
     <main className="confirmation-page">
@@ -17,56 +43,76 @@ export default function Confirmation() {
 
         <span className="confirmation-label">TIME CAPSULE</span>
 
-        <h1>You're all set!</h1>
+        <h1>Capsule Saved Successfully!</h1>
 
         <p className="confirmation-subtitle">
-          You've completed the capsule details and preview.
+          Your capsule details have been saved in this browser.
         </p>
 
-        {capsule && (
+        {capsule ? (
           <div className="confirmation-summary">
             <span className="confirmation-summary-icon">💌</span>
-            <div>
-              <h2>{capsule.title}</h2>
-              <p>For {capsule.recipientName}</p>
-              <p>
-                Unlock date:{" "}
-                {new Date(`${capsule.unlockDate}T00:00:00`).toLocaleDateString(
-                  undefined,
-                  { day: "numeric", month: "long", year: "numeric" }
-                )}
+
+            <div className="confirmation-summary-details">
+              <h2>{capsule.title || "Untitled Capsule"}</h2>
+              <p>For {capsule.recipientName || "your recipient"}</p>
+
+              <p className="confirmation-detail">
+                <IoMailOutline />
+                {capsule.recipientEmail || "No email provided"}
+              </p>
+
+              <p className="confirmation-detail">
+                <IoCalendarOutline />
+                Delivery date: {formattedDate}
+              </p>
+
+              <p className="confirmation-detail">
+                <IoTimeOutline />
+                Delivery time: {formattedTime}
               </p>
             </div>
           </div>
+        ) : (
+          <p className="confirmation-subtitle">
+            No capsule details were received. You can create a new capsule
+            below.
+          </p>
         )}
 
         <div className="confirmation-demo-notice">
-          <strong>Demo mode</strong>
+          <strong>Frontend demo mode</strong>
           <p>
-            Form validated successfully! Demo only — your capsule has not
-            been saved or scheduled.
+            Your capsule is saved locally in this browser. It is not yet
+            stored in a backend database.
           </p>
           <p>
-            Connect the backend later to save your capsule and enable scheduled
-            delivery and recipient access controls.
+            Scheduled email notifications and secure recipient access
+            will be implemented when we build the backend.
           </p>
         </div>
 
         <div className="confirmation-actions">
           <button
+            type="button"
             className="confirmation-primary"
+            onClick={() => navigate("/mycapsules")}
+          >
+            View My Capsules
+          </button>
+
+          <button
+            type="button"
+            className="confirmation-secondary"
             onClick={() => navigate("/dashboard")}
           >
             Back to Dashboard
           </button>
 
           <button
+            type="button"
             className="confirmation-secondary"
-            onClick={() =>
-              navigate("/createcapsule", {
-                state: capsule ? { capsule } : undefined,
-              })
-            }
+            onClick={() => navigate("/createcapsule")}
           >
             Create Another Capsule
           </button>

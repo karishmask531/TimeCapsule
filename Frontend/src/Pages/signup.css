@@ -22,6 +22,24 @@
   background: #fff;
   box-shadow: 0 12px 34px rgba(67, 47, 111, 0.06);
 }
+.cancel-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: transparent;
+  color: #6c63ff;
+  border: 1px solid #6c63ff;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background: #f0edff;
+  transform: translateY(-1px);
+}
 
 .signup-page button,
 .signup-page input {

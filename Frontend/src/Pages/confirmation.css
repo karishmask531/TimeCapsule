@@ -186,3 +186,19 @@
     transition: none !important;
   }
 }
+.confirmation-summary-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.confirmation-detail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-wrap: anywhere;
+}
+
+.confirmation-detail svg {
+  flex-shrink: 0;
+  color: #6c63ff;
+}

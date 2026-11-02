@@ -12,6 +12,7 @@ import Home from './Pages/home';
 import MyCapsules from './Pages/mycapsule';
 import Profile from './Pages/profile';
 import Confirmation from './Pages/confirmation';
+import CapsuleDetails from "./Pages/capsuledetails";
 // import Logout from './Pages/logout';
 
 
@@ -27,7 +28,10 @@ function App() {
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/mycapsules" element={<MyCapsules/>}/>
       <Route path="/profile" element={<Profile/>}/>
-      
+      <Route
+  path="/capsule/:id"
+  element={<CapsuleDetails />}
+/>
         <Route
           path="/confirmation"
           element={<Confirmation />}

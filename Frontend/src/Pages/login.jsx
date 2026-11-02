@@ -21,6 +21,7 @@ function Login() {
 
   // Loading state
   const [isLoading, setIsLoading] = useState(false);
+  
 
   function validateEmail(value) {
     const trimmedEmail = value.trim();
@@ -234,6 +235,13 @@ function Login() {
           <button type="submit" disabled={isLoading}>
             {isLoading ? "Checking..." : "Login"}
           </button>
+          <button
+  type="button"
+  className="cancel-btn"
+  onClick={() => navigate("/")}
+>
+  Cancel
+</button>
         </form>
 
         <p className="signup-link">
